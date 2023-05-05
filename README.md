@@ -1,14 +1,16 @@
 # ClubBioStats 2023
 
-## séances 1 et 2: manipulations des structures de données
+## sÃ©ances 1 et 2: manipulations des structures de donnÃ©es
 
-### structure de données: vector, matrix, dataframes and list
+### structure de donnÃ©es: vector, matrix, dataframes and list
 ### comment faire des boucles 
 ### comment faire des fonctions
 
-## séance 3: graphiques avec ggplot2
+## sÃ©ance 3: graphiques avec ggplot2
 
-###  éléments géométriques: histogramme, scatterplot, curve plot, density plot
-### propriétés visuelles: axes, couleurs, tailles, texte
-### plot par catégories, add secondary axis, sauvegarder plot
+###  Ã©lÃ©ments gÃ©omÃ©triques: histogramme, scatterplot, curve plot, density plot
+### propriÃ©tÃ©s visuelles: axes, couleurs, tailles, texte
+### plot par catÃ©gories, add secondary axis, sauvegarder plot
 
+## sÃ©ance 4: manipulation de donnÃ©es avec le package "dyplr"
+### jeu de donnÃ©es utilisÃ©: Star Wars data set from dyplr
