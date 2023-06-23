@@ -1,0 +1,490 @@
+---
+title: "Cheatsheet for statistical tests with R"
+classoption: openany
+output:
+  rmarkdown::html_vignette:
+    toc: true
+linkcolor: blue
+urlcolor: green
+---
+
+<style type="text/css">
+
+body{
+font-size: 11pt;
+}
+
+h1.title {
+font-size: 40pt;
+}
+
+code.r{
+font-size: 11pt;
+}
+
+body {
+  max-width: 1000px;  
+  margin-left:10px;
+  line-height: 20px;
+}
+
+</style>
+
+
+
+```{css, echo=FALSE}
+.watch-out {
+  border: 1px solid black;
+}
+```
+
+```{r , echo = FALSE, eval=TRUE, comment=''} 
+knitr::opts_chunk$set(class.source = "watch-out")
+```
+
+# Tests on the mean
+
+Test the mean of a normal population differs from a predefined value ?
+
+## One-sample tests
+
+Test if a population mean $\mu$ differs from a specific value $\mu_0$. 
+ 
+### z-test
+
+  + Data sampled from a Gaussian distribution.
+  + Standard deviation $\sigma$ is known.
+  + Assumption of an underlying Gaussian distribution can be relaxed if the sample size n $\leq$ 25 or 30 
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(BSDA)
+z.test()
+```
+
+https://www.rdocumentation.org/packages/BSDA/
+
+### t-test
+  + Data sampled from a Gaussian distribution.
+  + Standard deviation $\sigma$ of the underlying Gaussian distribution is unknown and estimated by the population standard     deviation (i.e. population variance is approximated from the sample).
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+t.test()
+```  
+
+https://www.rdocumentation.org/packages/stats
+
+## Two-sample tests
+
+Tests if the means of two populations differ from each other ? 
+
+or
+
+Tests if the mean difference of paired populations differ from a specific value ?
+
+### Two-sample z-test 
+  + Tests if two population means $\mu_1$ and $\mu_2$ differ less than, more than or by a value $d_0$.
+  + Data are sampled from two independent Gaussian distributions.
+  + The standard deviations $\sigma_1$ and$\sigma_2$ of the underlying Gaussian distributions are known.
+  + The assumption of an underlying Gaussian distribution can be relaxed if for both distributions the sample sizes for both distributions n1, n2 $\leq$ 25 or 30.
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(BSDA)
+z.test()
+```  
+
+https://www.rdocumentation.org/packages/BSDA/
+
+### Two-sample pooled t-test 
+
+  + Tests if two population means $\mu_1$ and $\mu_2$ differ less than, more than or by a value $d_0$.
+  + Data are sampled from two independent Gaussian distributions.
+  + Standard deviations  $\sigma_1$ and $\sigma_2$ 2 of the underlying Gaussian distributions are unknown but equal and estimated through the pooled population standard deviation.
+  + The assumption of an underlying Gaussian distribution can be relaxed if for both distributions the sample sizes for both distributions n1, n2 $\leq$ 25 or 30.
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+t.test()
+```  
+
+https://www.rdocumentation.org/packages/stats
+
+### Welch test 
+
+  + Tests if two population means $\mu_1$ and $\mu_2$ differ less than, more than or by a value $d_0$.
+  + Data are sampled from two independent Gaussian distributions.
+  + Standard deviations  $\sigma_1$ and $\sigma_2$ 2 of the underlying Gaussian distributions
+are unknown and not necessarily equal. 
+  + They are estimated through the population standard deviation of each sample.
+  + The assumption of an underlying Gaussian distribution can be relaxed if for both distributions the sample sizes for both distributions n1, n2 $\leq$ 25 or 30.
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+# option var.equal=FALSE enables the Welch test
+t.test( var.equal=FALSE )
+```  
+
+https://www.rdocumentation.org/packages/stats
+
+### Paired z-test 
+
+  + Tests if the difference of two population means $\mu_1-\mu_2$ differs from a value $d_0$ in the case that observations are collected in pairs.
+  + Populations follows Gaussian distribution with means $\mu_1,\mu_2$ and variance $\sigma_1,\sigma_2$.
+  + Assumption of a Gaussian distribution can be relaxed if the distribution of the differences is symmetric.
+
+```{r, echo = TRUE, eval=FALSE, comment=''}  
+library(BSDA)
+z.test(alternative='two.sided')
+```  
+
+https://www.rdocumentation.org/packages/BSDA/
+
+### Paired t-test
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+t.test( alternative="two.sided",paired=TRUE )
+``` 
+
+https://www.rdocumentation.org/packages/stats/
+
+
+
+
+# Tests on the variance
+
+## One-sample tests
+
+Tests if the variance differs from a predefined value.
+
+### $\chi^2$-test on the variance (mean known)
+  + Data are sampled from a Gaussian distribution.
+  + The mean $\mu$ of the Gaussian distribution is known.
+  + Test is very sensitive to violations of the Gaussian assumption and small sample size.
+  + Mean unknown : there is no function in R to perform this $\chi^2$-test directly.
+    
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(EnvStats)
+varTest()
+``` 
+https://www.rdocumentation.org/packages/EnvStats/
+
+## Two-sample tests 
+
+Test if the variances of two populations differ from each other.
+
+### Two-sample F-test on variances of two populations
+  + Data sampled from two independent Gaussian distributions with standard deviations $\sigma_1$ and $\sigma_2$.
+  + test very sensitive to violations of the Gaussian assumption
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(EnvStats)
+varTest()
+``` 
+
+https://www.rdocumentation.org/packages/EnvStats/
+
+### t-test on variances of two dependent populations and variance of the differences is known
+  + There is no function in R to perform a t-test with paired samples where the variance of the differences is known
+  + Need to code the hypotheses, the test statistic, the test decision and the p-value.
+
+### t-test on variances of two dependent populations and variance of the differences is unknown
+  + There is no function in R to perform a t-test with paired samples where the variance of the differences is unknown.
+  + Need to code the hypotheses, the test statistic, the test decision and the p-value.
+
+
+
+
+# Tests on proportions
+
+## One-sample tests
+
+Tests if a population proportion differs from a predefined value between 0 and 1.
+
+### Binomial test
+
+  + Tests if a population proportion $p$ differs from a value $p_0$.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+binom.test()
+prop.test()
+```
+
+https://www.rdocumentation.org/packages/stats/
+
+## Two-sample tests
+
+Tests if proportions of two independent populations differ from each other.
+
+### z-test for the difference of two proportions (unpooled variances)
+
+  + The standard deviations of both distributions may differ from each other.
+  + Tests if two population proportions $p_1$ and $p_2$ differ by a specific value $d_0$.
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+prop.test()
+```
+https://www.rdocumentation.org/packages/stats/
+
+### z-test for the equality between two proportions (pooled variances)
+
+  + Unknown standard deviations are assumed.
+  + pooled variances: both samples can be pooled to obtain a better estimate of the standard deviation.
+  + Tests if two population proportions $p_1$ and $p_2$ differ from each other.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+prop.test()
+```
+https://www.rdocumentation.org/packages/stats/
+
+## K-sample tests
+
+### K-sample binomial test
+
+  + Tests if $k$ population proportions, $p_i$, $i = 1,...,K$, differ from each other.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+chisq.test()
+```
+
+https://www.rdocumentation.org/packages/stats/
+
+
+
+
+# Tests on correlation
+
+## One-sample tests
+
+### Pearson’s product moment correlation coefficient
+
+  + Tests if the Pearson’s product moment correlation coefficient $\rho$ differs from a specific value $\rho_0$.
+  + The relationship between $X$ and $Y$ is linear.
+  + The vector $(X,Y)$ follows a bivariate normal distribution.
+    
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+cor.test( method="pearson" )
+```
+
+https://www.rdocumentation.org/packages/stats/
+
+### Spearman’s rank correlation coefficient
+
+  + Tests if the Spearman rank correlation coefficient $\rho_r$ differs from a specific value $\rho_0$.
+  + The relationship between $X$ and $Y$ is monotonic.
+  + The realizations of both random variables are converted into ranks.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+cor.test(X,Y, method="spearman")
+```
+
+https://www.rdocumentation.org/packages/stats/
+
+### Partial correlation
+
+  + Tests if the correlation coefficient $\rho_{XY,Z}$ of two random variables X and Y given a third random variable Z differs from zero.
+  + Random variables X, Y, and Z are assumed to follow a joint Gaussian distribution.
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(ppcor)
+pcor()
+```
+
+https://www.rdocumentation.org/packages/ppcor/
+
+## Two-sample tests
+
+ + Tests if two correlation coefficients $\rho_1$  and $\rho_2$  from independent populations differ from each other.
+ + Data are randomly sampled from two independent bivariate Gaussian distributions with sample sizes $n_1$ and $n_2$.
+ + The parameters $\rho_1$ and $\rho_2$ are the correlation coefficients in the two populations.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(cocor)
+cocor()
+```
+
+https://www.rdocumentation.org/packages/cocor/
+
+# Tests on the median
+
+Tests if the median of a population differs from a predefined value. 
+
+## One-sample tests
+
+### Sign test
+
+  + Tests if the location (median $m$) of a population differs from a specific value $m_0$.
+  + Nonparametric test.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(BSDA)
+SIGN.test()
+```
+https://www.rdocumentation.org/packages/BSDA/
+
+### Wilcoxon signed-rank test
+
+  + Tests if the location (median $m$) of a population differs from a specific value $m_0$.
+  + Nonparametric test.
+  + Random variables $X_i$, $i=1,...,n$, follow continuous distributions, which might differ, but are all symmetric about the same median $m$.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(BSDA)
+wilcox.test()
+```
+
+https://www.rdocumentation.org/packages/BSDA/
+
+## Two-sample tests
+
+Tests if two populations of the same shape differ by their location.
+
+### Wilcoxon rank-sum test (Mann–Whitney U test)
+
+  + Tests if two independent populations differ by a shift in location.
+  + Nonparametric test.
+  + Samples $X_i$, $i = 1,...,n_1$ and $Y_j, j=1,...,n_2$ are randomly drawn from $X$ and $Y$.
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(BSDA)
+wilcox.test()
+```   
+    
+https://www.rdocumentation.org/packages/BSDA/
+
+### Wilcoxon matched-pairs signed-rank test
+
+  + Tests if the location (median m) of the difference of populations is zero, in the case of paired samples.
+  + The random variables $X$ and $Y$ are observed in pairs with observations $(x_i,y_i)$ $i=1,...,n$.
+  + The differences $D_i = X_i−Y_i$ are independent and identically distributed.
+  + The distribution of the $D_i$ is continuous and symmetric around the median $m$.
+  + This test is the nonparametric equivalent to the paired t-test.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(BSDA)
+wilcox.test()
+```   
+
+https://www.rdocumentation.org/packages/BSDA/
+
+## K-sample tests
+
+### Kruskal–Wallis test
+  + Tests if the median of three or more populations is the same.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+kruskal.test()
+``` 
+
+https://www.rdocumentation.org/packages/stats/
+
+
+
+# Tests on normality
+
+## Tests based on the EDF
+
+### Kolmogorov–Smirnov test
+  
+  + Tests if a sample is sampled from a specific distribution function $F_0(x)$
+  + Evaluates the greatest vertical distance between the EDF (Empirical Distribution Function) and the CDF (Cumulative Distribution Function) of the standard normal distribution. 
+  
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+ks.test()
+```
+
+https://www.rdocumentation.org/packages/stats/
+
+    
+### Anderson–Darling test
+
+  + Tests if a sample is sampled from a normal distribution with parameter $\mu$ and $\sigma^2$.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(nortest)
+ad.test()
+```
+
+https://www.rdocumentation.org/packages/nortest/
+
+### Cramér–von Mises test
+
+  + Tests if a sample is sampled from a normal distribution with parameter $\mu$ and $\sigma^2$.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(nortest)
+goftest::cvm.test()
+```
+
+https://www.rdocumentation.org/packages/nortest/
+
+## Tests not based on the EDF
+
+### Shapiro–Wilk test
+
+  + Tests if a sample is sampled from a normal distribution.
+  + Powerful test, especially in samples with small sample sizes.
+  + The mean $\mu$ and variance $\sigma$ are unknown.
+ 
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(rstatix)
+shapiro.test()
+```
+
+https://www.rdocumentation.org/packages/rstatix/
+
+### Jarque–Bera test
+
+  + Tests if a sample is sampled from a normal distribution.
+  + The mean $\mu$ and variance $\sigma$ are unknown.
+  + If the data are normally distributed the skewness is 0 and the kurtosis is 3.
+  + Large values of JB tend to refute the null hypothesis.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(tseries)
+jarque.bera.test()
+```  
+
+https://www.rdocumentation.org/packages/tseries/
+
+
+# Tests in variance analysis 
+
+## Tests for homogeneity of variances
+
+### Bartlett test
+
+  + Tests if the variances of k Gaussian populations differ from each other.
+  + Very sensitive to the violation of the Gaussian assumption. 
+  + If the samples are not Gaussian distributed: Levene’s test
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(stats)
+bartlett.test()
+```
+
+https://www.rdocumentation.org/packages/stats/
+
+
+### Levene test
+
+  + Tests if the variances of k Gaussian populations differ from each other.
+  + Does not need the assumption of underlying Gaussian distributions.
+
+```{r, echo = TRUE, eval=FALSE, comment=''} 
+library(car)
+leveneTest()
+```
+
+https://www.rdocumentation.org/packages/car/
+
+
+
+
