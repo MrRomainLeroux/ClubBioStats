@@ -1,4 +1,8 @@
+##########################################################
+
 # ClubBioStats 2023
+
+##########################################################
 
 ## séances 1 et 2: manipulations des structures de données
 
@@ -20,4 +24,9 @@
 ### ANOVA 1-way: test sur les moyennes de différentes catégories et tests post-hoc
 ### ANOVA 2-way: régression logistique, sélection de variables explicatices, probabilité de résultats en fonction de données qualitatives et quantitatives
 ### divers rappels sur boxplot, hypothèses de l'ANOVA, tests statistiques, interpétation des résultats
+
+## séance 6: Tests statistiques usuels
+### tests stats: rappel avec packages + fonctions R
+### tests: mean, variance, proportion, correlation, median, normalité, analyse de variance
+
 
