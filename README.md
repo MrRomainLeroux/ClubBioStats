@@ -10,3 +10,8 @@
 ### comment faire des boucles 
 ### comment faire des fonctions
 
+## séance 3: introduction à ggplot
+
+## séance 4: maniûmation de données avec le package dplyr
+
+
