@@ -12,6 +12,6 @@
 
 ## séance 3: introduction à ggplot
 
-## séance 4: maniûmation de données avec le package dplyr
+## séance 4: manipulation de données avec le package dplyr
 
 
